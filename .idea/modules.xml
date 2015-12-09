@@ -4,7 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LibDevContainer.iml" filepath="$PROJECT_DIR$/LibDevContainer.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/beacondetector/beacondetector.iml" filepath="$PROJECT_DIR$/beacondetector/beacondetector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/httplighter/httplighter.iml" filepath="$PROJECT_DIR$/httplighter/httplighter.iml" />
       <module fileurl="file://$PROJECT_DIR$/onresume_saver/onresume_saver.iml" filepath="$PROJECT_DIR$/onresume_saver/onresume_saver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shellexecutor/shellexecutor.iml" filepath="$PROJECT_DIR$/shellexecutor/shellexecutor.iml" />
     </modules>
   </component>
 </project>

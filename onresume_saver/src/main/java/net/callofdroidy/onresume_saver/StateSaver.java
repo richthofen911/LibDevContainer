@@ -24,15 +24,15 @@ public class StateSaver {
 
     public StateSaver addStatus(String keyName, Object value){
         if(value instanceof String)
-            spStatusSaver.edit().putString(keyName, (String) value);
+            spStatusSaver.edit().putString(keyName, (String) value).commit();
         if(value instanceof Integer)
-            spStatusSaver.edit().putInt(keyName, (int) value);
+            spStatusSaver.edit().putInt(keyName, (int) value).commit();
         if(value instanceof Boolean)
-            spStatusSaver.edit().putBoolean(keyName, (boolean) value);
+            spStatusSaver.edit().putBoolean(keyName, (boolean) value).commit();
         if(value instanceof Float)
-            spStatusSaver.edit().putFloat(keyName, (float) value);
+            spStatusSaver.edit().putFloat(keyName, (float) value).commit();
         if(value instanceof Long)
-            spStatusSaver.edit().putLong(keyName, (Long) value);
+            spStatusSaver.edit().putLong(keyName, (Long) value).commit();
 
         return  this;
     }
@@ -59,9 +59,5 @@ public class StateSaver {
 
     public Map<String, ?> getAll(){
         return spStatusSaver.getAll();
-    }
-
-    public void commit(){
-        spStatusSaver.edit().commit();
     }
 }

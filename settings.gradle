@@ -1,1 +1,1 @@
-include ':app', ':onresume_saver'
+include ':app', ':onresume_saver', ':httplighter', ':shellexecutor', ':beacondetector'

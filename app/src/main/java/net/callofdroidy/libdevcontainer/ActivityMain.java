@@ -1,14 +1,19 @@
 package net.callofdroidy.libdevcontainer;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import net.callofdroidy.onresume_saver.StateSaver;
+
+import com.android.volley.Request;
+
+import net.callofdroidy.httplighter.APICaller;
+
 
 public class ActivityMain extends AppCompatActivity {
 
-    private StateSaver myStateSaver;
+
     private boolean testValue;
 
     @Override
@@ -16,13 +21,26 @@ public class ActivityMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myStateSaver = StateSaver.getInstance(getApplication());
+        String targetBeacon1 = DataStore.UUID_AprilBrother + "," + DataStore.beacon_major + "," + DataStore.beacon_minor;
+        Bundle detectionConfig = new Bundle();
+        detectionConfig.putStringArray("regionDefinition", new String[]{targetBeacon1});
+        detectionConfig.putInt("rssiBorderValue", -65);
+        detectionConfig.putBoolean("isGeneralSearchMode", false);
+        detectionConfig.putString("UserID", "2"); // userId is got from ActivityLogin
 
-        testValue = myStateSaver.getStatusBoolean("testValue");
-        Log.e("testValue", testValue + "");
-        testValue = true;
-        Log.e("testValue", testValue + "");
+        startService(new Intent(this, ServiceMyBeaconDetector.class).putExtras(detectionConfig));
 
+
+    }
+
+    private void testAPICaller(){
+        APICaller.getInstance(this).setAPI("http://192.168.128.98:8000", "/", null, Request.Method.GET)
+                .exec(new APICaller.VolleyCallback() {
+                    @Override
+                    public void onDelivered(String result) {
+                        Log.e("result", result);
+                    }
+                });
     }
 
     @Override
@@ -30,17 +48,19 @@ public class ActivityMain extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.e("lifecycle", "onSaveInstanceState");
 
-        myStateSaver.addStatus("value", false);
-        Log.e("add value", testValue + "");
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         Log.e("lifecycle", "onResume");
 
-        Log.e("testValue", testValue + "");
-
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Log.e("lifecycle", "onDestroy");
+        stopService(new Intent(this, ServiceMyBeaconDetector.class));
+    }
 }
