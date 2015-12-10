@@ -33,7 +33,9 @@ abstract public class ServiceBeaconDetector extends Service implements RECOServi
 
     protected RECOBeaconManager mRecoManager;
     protected ArrayList<RECOBeaconRegion> definedRegions;
-    protected boolean alreadyPlaying = false;
+
+    private OnActionEnterListener onActionEnterListener;
+    private OnActionExitListener onActionExitListener;
 
     private static NotificationManager mNotificationManager;
 
@@ -147,15 +149,25 @@ abstract public class ServiceBeaconDetector extends Service implements RECOServi
         Log.e("RECO service error:", recoErrorCode.toString());
     }
 
-    abstract protected void onEnterRegion(RECOBeacon recoBeacon);
+    protected void onEnterRegion(RECOBeacon recoBeacon){
+        if(onActionEnterListener != null)
+            onActionEnterListener.onActionEnter(recoBeacon);
+        else
+            Log.e("null listener", "should set the listener in Activity");
+    }
 
 
-    abstract protected void onExitRegion(RECOBeacon recoBeacon);
+    protected void onExitRegion(RECOBeacon recoBeacon){
+        if(onActionExitListener != null)
+            onActionExitListener.onActionExit(recoBeacon);
+        else
+            Log.e("null listener", "should set the listener in Activity");
+    }
 
     private void inOut(int theRssi, RECOBeacon recoBeacon){
         if(!generalSearchMode){
             if(theRssi > rssiBorder){ // if the beacon is detected and its rssi is stronger enough, which means it is the beacon for the specific location, not a random one
-                if(!entered && !alreadyPlaying){ //if haven't entered, do it
+                if(!entered){ //if haven't entered, do it
                     exitCount = 0;
                     entered = true;
                     exited = false;
@@ -201,6 +213,14 @@ abstract public class ServiceBeaconDetector extends Service implements RECOServi
     @Override
     public void rangingBeaconsDidFailForRegion(RECOBeaconRegion recoBeaconRegion, RECOErrorCode recoErrorCode) {
         Log.e("RECO ranging error:", recoErrorCode.toString());
+    }
+
+    public void setOnActionEnterListener(OnActionEnterListener listenerForActivity){
+        this.onActionEnterListener = listenerForActivity;
+    }
+
+    public void setOnActionExitListener(OnActionExitListener listenerForActivity){
+        this.onActionExitListener = listenerForActivity;
     }
 
     @Override
