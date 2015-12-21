@@ -1,6 +1,8 @@
 package net.callofdroidy.libdevcontainer;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,7 @@ public class ActivityMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
         String targetBeacon1 = DataStore.UUID_AprilBrother + "," + DataStore.beacon_major + "," + DataStore.beacon_minor;
         Bundle detectionConfig = new Bundle();
         detectionConfig.putStringArray("regionDefinition", new String[]{targetBeacon1});
@@ -29,18 +32,9 @@ public class ActivityMain extends AppCompatActivity {
         detectionConfig.putString("UserID", "2"); // userId is got from ActivityLogin
 
         startService(new Intent(this, ServiceMyBeaconDetector.class).putExtras(detectionConfig));
+        */
 
 
-    }
-
-    private void testAPICaller(){
-        APICaller.getInstance(this).setAPI("http://192.168.128.98:8000", "/", null, Request.Method.GET)
-                .exec(new APICaller.VolleyCallback() {
-                    @Override
-                    public void onDelivered(String result) {
-                        Log.e("result", result);
-                    }
-                });
     }
 
     @Override
@@ -61,6 +55,19 @@ public class ActivityMain extends AppCompatActivity {
     protected void onDestroy(){
         super.onDestroy();
         Log.e("lifecycle", "onDestroy");
-        stopService(new Intent(this, ServiceMyBeaconDetector.class));
+        // stopService(new Intent(this, ServiceMyBeaconDetector.class));
+    }
+
+    // This method can be used if some basic database conditions need to be involved when testing a lib
+    private void createDatabaseForLibTest(){
+        MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(this);
+        SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", "morning news");
+        contentValues.put("content", "bad weather today");
+        contentValues.put("time", "when I get up");
+
+        db.insert("news", "morning news", contentValues);
     }
 }

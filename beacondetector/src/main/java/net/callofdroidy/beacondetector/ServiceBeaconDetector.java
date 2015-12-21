@@ -192,7 +192,7 @@ abstract public class ServiceBeaconDetector extends Service implements RECOServi
                         }
                     }
                 }else{
-                    Log.e("not this beacon", String.valueOf(recoBeacon.getMinor()));
+                    Log.e("not this beacon", String.valueOf(recoBeacon.getMajor()) + "-" +String.valueOf(recoBeacon.getMinor()));
                 }
             }
         }else {
