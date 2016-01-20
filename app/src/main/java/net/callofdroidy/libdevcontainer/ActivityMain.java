@@ -8,11 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 
-import com.android.volley.Request;
-
-import net.callofdroidy.httplighter.APICaller;
-
-
 public class ActivityMain extends AppCompatActivity {
 
 
@@ -23,8 +18,11 @@ public class ActivityMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Utils.importDummyDatabase(this);
+        boolean result = Utils.verifyInputValue("a0aa", "\\d+");
+        Log.e("verify", String.valueOf(result));
+
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState){

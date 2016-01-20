@@ -8,14 +8,18 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.regex.Pattern;
 
 /**
  * Created by admin on 21/12/15.
  */
 public class Utils {
 
-    // This can be used if some basic database conditions need to be involved when testing a lib,
-    // it import a existing dummy database from res/raw folder
+    /**
+     * This can be used if some basic database conditions need to be involved when testing a lib,
+     * it import a existing dummy database from res/raw folder
+     */
+
     public static void importDummyDatabase(Context context) {
         String filePath = context.getFilesDir().toString();
         String databasesPath = filePath.substring(0, filePath.length() - 6) + "/databases/";
@@ -41,7 +45,12 @@ public class Utils {
         } catch (IOException e) {
             Log.e("io excp", e.toString());
         }
-
     }
 
+    /**
+     * this function can be used to verify input value on sign in/sign up or other situations
+     */
+    public static boolean verifyInputValue(String inputValue, String regex){
+        return Pattern.compile(regex).matcher(inputValue).matches();
+    }
 }
